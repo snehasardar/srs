@@ -3,18 +3,9 @@ const UserModel = require("../model/user");
 // const createError = require('http-errors')
 
 module.exports = {
-  addUser: async (req, res, next) => {
+  addUserQuery: async (req, res, next) => {
     try {
       const { query, response } = req.body;
-
-      // const result = await add_user_schema.validateAsync(req.body);
-      // console.log(result);
-
-      // const userExist = await UserModel.findOne({ email: email })
-      // if( userExist ){
-      //   console.log(' email is exist ');
-      //   throw createError(` ${email} is exists`)
-      // }
       
       const user = new UserModel({
         query: query,
@@ -24,7 +15,7 @@ module.exports = {
         .save()
         .then(async () => {
           return res.status(200).json({
-            message: "User added Successfully",
+            message: "User Query added Successfully",
             status: 1,
           });
         })
@@ -37,7 +28,7 @@ module.exports = {
       next(error);
     }
   },
-  userUpdate: async (req, res, next) => {
+  userQueryUpdate: async (req, res, next) => {
     try {
       const { query, response } = req.body;
       UserModel.updateOne(
@@ -46,13 +37,13 @@ module.exports = {
       )
         .then(() => {
           return res.status(200).json({
-            message: "User updated Successfully",
+            message: "User Query updated Successfully",
             status: 1,
           });
         })
         .catch((err) => {
           return res.status(500).json({
-            message: "User not updated",
+            message: "User  Query not updated",
             status: 0,
           });
         });
@@ -61,35 +52,14 @@ module.exports = {
       next(error);
     }
   },
-  userDetails: async (req, res, next) => {
-    try {
-      const userId = req.params.id;
-
-      await UserModel.findOne({ _id: userId })
-        .then(async (data) => {
-          return res.status(200).json({
-            message: "User data fetched Successfully",
-            user: data,
-            status: 1,
-          });
-        })
-        .catch((err) => {
-          const error = new Error(err);
-          next(error);
-        });
-    } catch (err) {
-      const error = new Error(err);
-      next(error);
-    }
-  },
-  deleteUser: async (req, res, next) => {
+  deleteUserQuery: async (req, res, next) => {
     try {
       const userId = req.params.id;
 
       await UserModel.deleteOne({ _id: userId })
         .then(async () => {
           return res.status(200).json({
-            message: "User data is Successfully deleted",
+            message: "User Query is Successfully deleted",
             status: 1,
           });
         })
@@ -102,12 +72,12 @@ module.exports = {
       next(error);
     }
   },
-  allUser: async (req, res, next) => {
+  allUserQuery: async (req, res, next) => {
     try {
       await UserModel.find()
         .then(async (data) => {
           return res.status(200).json({
-            message: "All User data is here",
+            message: "All User Query is here",
             user: data,
             status: 1,
           });
@@ -129,7 +99,7 @@ module.exports = {
         .then(async (data) => {
           if(data){
             return res.status(200).json({
-              message: "User data fetched Successfully",
+              message: "User Query fetched Successfully",
               user: data,
               status: 1,
             });
